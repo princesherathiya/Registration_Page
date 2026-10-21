@@ -10,26 +10,23 @@ pipeline {
         
         stage('Build & Test') {
             steps {
-                echo 'Building and verifying HTML syntax...'
-                sh 'test -f index.html'
+                echo 'Verifying index.html...'
+                bat 'dir index.html'
             }
         }
 
-        stage('Deploy Locally') {
+        stage('Deploy to Local Server Folder') {
             steps {
-                echo 'Deploying application to local hosting directory...'
-                sh 'mkdir -p local-deploy'
-                sh 'cp index.html local-deploy/index.html'
+                echo 'Deploying to local directory for Python server...'
+                bat 'if not exist C:\\local-server-folder mkdir C:\\local-server-folder'
+                bat 'copy index.html C:\\local-server-folder\\index.html'
             }
         }
     }
     
     post {
         success {
-            echo 'Pipeline completed successfully! Your registration page is hosted locally.'
-        }
-        failure {
-            echo 'Pipeline failed. Please check the logs.'
+            echo 'Deployment successful! Python server directory updated.'
         }
     }
 }
